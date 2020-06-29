@@ -11,3 +11,10 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 echo "If you're cluster is on AWS browse to:"
 echo http://$GATEWAY_URL/productpage
+
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+export INGRESS_HOST=127.0.0.1
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+echo "If you're cluster is docker for desktop browse to:"
+echo http://$GATEWAY_URL/productpage
