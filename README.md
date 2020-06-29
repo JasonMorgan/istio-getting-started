@@ -14,8 +14,18 @@ Walkthrough installing istio and running some scenarios.
 * dashboard.sh
 * request-routing.sh
 * fault-injection.sh
-* request-routing.sh
+* traffic-shifting.sh
 * metrics.sh
+
+### What's happening
+
+* We're going to install istio
+* We're going to deploy the bookinfo app
+* We're going to launch the Kali dashboard and take a peak at the graphs
+* We're going to try some unique request routing
+* We're going to inject some faults into our distributed app
+* We're going to manipulate traffic
+* We're going to look at some metrics
 
 ## Slides link
 
