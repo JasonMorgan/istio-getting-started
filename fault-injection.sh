@@ -11,7 +11,6 @@ kubectl apply -f istio-1.6.3/samples/bookinfo/networking/virtual-service-ratings
 
 k get virtualservices ratings -o yaml
 
-## Log in as jason, stars come back, logout
 ### Logging in involves putting in a username and no password
 ### Only jason has the problem
 ### More details: https://istio.io/latest/docs/tasks/traffic-management/fault-injection/#understanding-what-happened\
