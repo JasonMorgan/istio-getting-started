@@ -34,4 +34,3 @@ k get virtualservices ratings -o yaml
 ### Cleanup
 
 kubectl delete -f istio-1.6.3/samples/bookinfo/networking/virtual-service-all-v1.yaml
-kubectl apply -f istio-1.6.3/samples/bookinfo/networking/virtual-service-all-v1.yaml

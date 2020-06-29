@@ -13,6 +13,9 @@ Walkthrough installing istio and running some scenarios.
 * setup-bookinfo.sh
 * dashboard.sh
 * request-routing.sh
+* fault-injection.sh
+* request-routing.sh
+* metrics.sh
 
 ## Slides link
 

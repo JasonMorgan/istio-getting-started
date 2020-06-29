@@ -1,10 +1,8 @@
 #!/bin/bash
 
-pushd istio-1.6.3
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
-popd
+kubectl apply -f istio-1.6.3/samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -f istio-1.6.3/samples/bookinfo/networking/bookinfo-gateway.yaml
+kubectl apply -f istio-1.6.3/samples/bookinfo/networking/destination-rule-all.yaml
 
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 # export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
