@@ -9,13 +9,13 @@ Walkthrough installing istio and running some scenarios.
 
 ## Order
 
-* Install.sh
-* setup-bookinfo.sh
-* dashboard.sh
-* request-routing.sh
-* fault-injection.sh
-* traffic-shifting.sh
-* metrics.sh
+* 01_install.sh
+* 02_setup-bookinfo.sh
+* 03_dashboard.sh
+* 04_request-routing.sh
+* 05_fault-injection.sh
+* 06_traffic-shifting.sh
+* 07_metrics.sh
 
 ### What's happening
 
