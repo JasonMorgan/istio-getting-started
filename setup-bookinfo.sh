@@ -1,8 +1,12 @@
 #!/bin/bash
 
-kubectl apply -f istio-1.6.3/samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl apply -f istio-1.6.3/samples/bookinfo/networking/bookinfo-gateway.yaml
-kubectl apply -f istio-1.6.3/samples/bookinfo/networking/destination-rule-all.yaml
+REL=$(curl -L -s https://api.github.com/repos/istio/istio/releases | \
+                  grep tag_name | sed "s/ *\"tag_name\": *\"\\(.*\\)\",*/\\1/" | \
+                  grep -v -E "(alpha|beta|rc)\.[0-9]$" | sort -t"." -k 1,1 -k 2,2 -k 3,3 -k 4,4 | tail -n 1)
+                  
+kubectl apply -f istio-$REL/samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -f istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
+kubectl apply -f istio-$REL/samples/bookinfo/networking/destination-rule-all.yaml
 
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 # export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
