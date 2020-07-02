@@ -6,6 +6,7 @@ REL=$(curl -L -s https://api.github.com/repos/istio/istio/releases | grep tag_na
 alias bat="bat -l yaml"
 alias yqc="yq -C r"
 
+export NAMESPACE=default && istio-${REL}/samples/bookinfo/platform/kube/cleanup.sh
 clear
 #_ECHO_ON
 
@@ -18,12 +19,17 @@ kubectl get svc istio-ingressgateway -n=istio-system
 #Install bookinfo application
 bat istio-$REL/samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/platform/kube/bookinfo.yaml
+k get pods
+k get svc
 
 # Install Istio Gateway and VirtualService
-bat istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
+# gateway says: accepting all traffic from port 80 on the load balancer;  virtual service says: i associate myself with that gateway. if any of that traffic matches these rules, redirect the traffic to these hosts/ports, where a host is a service
+yqc -d 0 istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
+yqc -d 1 istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
 
 # Install DestinationRules
+# DestinationRule: Next level of granularity after Virtual Service. For a given Kubernetes Service,
 bat istio-$REL/samples/bookinfo/networking/destination-rule-all.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/networking/destination-rule-all.yaml
 
