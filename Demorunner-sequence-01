@@ -4,24 +4,28 @@
 
 REL=$(curl -L -s https://api.github.com/repos/istio/istio/releases | grep tag_name | sed "s/ *\"tag_name\": *\"\\(.*\\)\",*/\\1/" | grep -v -E "(alpha|beta|rc)\.[0-9]$" | sort -t"." -k 1,1 -k 2,2 -k 3,3 -k 4,4 | tail -n 1)
 alias bat="bat -l yaml"
+alias yqc="yq -C r"
 
+clear
 #_ECHO_ON
 
-bat ./install.sh
+#bat ./01_install.sh
 
 kubectl api-resources --api-group networking.istio.io
 #_ECHO_# Check LB
-kubectl get svc -n=istio-system
+kubectl get svc istio-ingressgateway -n=istio-system
 
+#Install bookinfo application
+bat istio-$REL/samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/platform/kube/bookinfo.yaml
+
+# Install Istio Gateway and VirtualService
+bat istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/networking/bookinfo-gateway.yaml
+
+# Install DestinationRules
+bat istio-$REL/samples/bookinfo/networking/destination-rule-all.yaml
 kubectl apply -f istio-$REL/samples/bookinfo/networking/destination-rule-all.yaml
-
-kubectl get gateways.networking.istio.io bookinfo-gateway -o yaml |bat
-kubectl get virtualservices productpage -o yaml |bat
-kubectl get destinationrules productpage -o yaml  |bat
-kubectl get virtualservices reviews -o yaml |bat
-
 
 #_ECHO_OFF
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
@@ -33,16 +37,10 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 #_ECHO_# Browse to:
 echo http://$GATEWAY_URL/productpage
 
-
-#_ECHO_ON
-
-#_ECHO_# Start Kiali Dashboard
+#_ECHO_# Start Kiali Dashboard (admin/admin)
 istioctl dashboard kiali &
-echo "username: admin"
-echo "password: admin"
 
 #_ECHO_# Route1
-
 kubectl apply -f istio-$REL/samples/bookinfo/networking/virtual-service-all-v1.yaml
 
 #_ECHO_# Tour around the objects
