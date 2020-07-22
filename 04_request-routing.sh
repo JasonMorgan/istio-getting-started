@@ -1,5 +1,5 @@
 #!/bin/bash
-## Based on teh steps found here:https://istio.io/latest/docs/tasks/traffic-management/request-routing/
+## Based on the steps found here:https://istio.io/latest/docs/tasks/traffic-management/request-routing/
 
 ## Route1
 
